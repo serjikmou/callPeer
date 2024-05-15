@@ -135,7 +135,7 @@ export default function App() {
         >
           <button onClick={() => call(remotePeerIdValue)}>تماس</button>
           <button style={{ marginLeft: 2 }} onClick={hangUp}>
-            قظع{" "}
+            قطع{" "}
           </button>
         </div>
         <div
