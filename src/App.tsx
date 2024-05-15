@@ -17,6 +17,7 @@ export default function App() {
   const handleCopy = async () => {
     try {
       await navigator.clipboard.writeText(peerId);
+      alert("کپی شد");
     } catch (error) {
       console.log(error);
     }
@@ -27,6 +28,7 @@ export default function App() {
     if (currentUserStreamRef.current) stopTracks(currentUserStreamRef.current);
   };
   const call = (remotePeerId: string) => {
+    alert("در حال  تماس");
     const getUserMedia = navigator.mediaDevices.getUserMedia;
     getUserMedia({ video: false, audio: true })
       .then((localStream: MediaStream) => {
@@ -89,8 +91,8 @@ export default function App() {
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
+        overflow: "hidden",
 
-        height: "100vh",
         padding: 10,
       }}
       className="App"
@@ -106,13 +108,20 @@ export default function App() {
           style={{ display: "flex", justifyContent: "center", marginTop: 2 }}
           className="App"
         >
-          <h6>{peerId ? peerId : "Please Wait..."}</h6>{" "}
+          <h6 style={{ border: "2px solid red", padding: 5 }}>
+            {peerId ? peerId : "کمی صبر کنید"}
+          </h6>{" "}
         </div>
         <div
           style={{ display: "flex", justifyContent: "center", marginTop: 2 }}
           className="App"
         >
-          <button onClick={handleCopy}>کپی</button>
+          <button
+            style={{ backgroundColor: "yellow", fontSize: 25 }}
+            onClick={handleCopy}
+          >
+            کپی
+          </button>
         </div>
         <div
           style={{
@@ -126,15 +135,24 @@ export default function App() {
             onChange={(e) => setRemotePeerIdValue(e.target.value)}
             type="text"
             value={remotePeerIdValue}
-            style={{ width: "90%" }}
+            style={{ width: "90%", fontSize: 15 }}
           />
         </div>
         <div
           style={{ display: "flex", justifyContent: "center", marginTop: 2 }}
           className="App"
         >
-          <button onClick={() => call(remotePeerIdValue)}>تماس</button>
-          <button style={{ marginLeft: 2 }} onClick={hangUp}>
+          <button
+            disabled={!remotePeerIdValue || remotePeerIdValue === peerId}
+            style={{ backgroundColor: "green", fontSize: 25 }}
+            onClick={() => call(remotePeerIdValue)}
+          >
+            تماس
+          </button>
+          <button
+            style={{ marginLeft: 2, backgroundColor: "red", fontSize: 25 }}
+            onClick={hangUp}
+          >
             قطع{" "}
           </button>
         </div>
@@ -146,7 +164,7 @@ export default function App() {
             padding: 10,
           }}
         >
-          <h5>
+          <h5 style={{ textAlign: "center" }}>
             روی کپی بزنید و آیدی خود را به طرف مقابل ارسال کنید تا با شما تماس
             بگیرد
           </h5>
